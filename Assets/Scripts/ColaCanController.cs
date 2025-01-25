@@ -7,7 +7,7 @@ public class ColaCanController : MonoBehaviour
     private Vector3 _currentMousePosition;
     private Rigidbody2D _rigidbody2D;
     private bool _isDragging = false;
-    private bool _isLaunching = false; // tracks if the player is in a 'slam state'
+    //private bool _isLaunching = false; // tracks if the player is in a 'slam state'
     private float _currentFizziness; //current fizziness value
 
     //private Vector3 _originalScale;
