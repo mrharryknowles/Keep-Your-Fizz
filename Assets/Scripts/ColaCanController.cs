@@ -120,5 +120,12 @@ public class ColaCanController : MonoBehaviour
         //updates the UI with the new value
         UpdateFizzinessUI();
     }
+
+    public bool IsSlamming()
+    {
+        //return true if the player is in the middle of a slam
+        return transform.localScale != _originalScale;
+    }
+
 }
  
