@@ -5,7 +5,7 @@ public class Enemy : MonoBehaviour
     public float health = 50f;
 
     //method to take damage from the player/can
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         health -= damage;
 

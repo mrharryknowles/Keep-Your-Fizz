@@ -28,6 +28,8 @@ public class ColaCanController : MonoBehaviour
 
     [SerializeField] private Transform slamIndicator;
 
+    [SerializeField] private float damageForce = 5f;
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -164,11 +166,13 @@ public class ColaCanController : MonoBehaviour
         UpdateFizzinessUI();
     }
 
-   // public bool IsSlamming()
-  //  {
-        //return true if the player is in the middle of a slam
-   //     return transform.localScale != _originalScale;
-  //  }
+    public void DamagePlayer(float amount, Transform source) {
+        _currentFizziness -= amount;
 
+        Vector2 force = (transform.position - source.position).normalized * damageForce;
+        _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
+        source.GetComponent<Rigidbody2D>().AddForce(-force, ForceMode2D.Impulse);
+        
+    }
 }
  
