@@ -7,7 +7,7 @@ public class ColaCanController : MonoBehaviour
     private Vector3 _currentMousePosition;
     private Rigidbody2D _rigidbody2D;
     private bool _isDragging = false;
-    //private bool _isLaunching = false; // tracks if the player is in a 'slam state'
+    private bool _isLaunching = false; // tracks if the player is in a 'slam state'
     private float _currentFizziness; //current fizziness value
 
     //private Vector3 _originalScale;
@@ -18,10 +18,15 @@ public class ColaCanController : MonoBehaviour
     [SerializeField] private float maxFizziness = 100f; //max value of fizziness (health)
     [SerializeField] private Slider fizzinessSlider; //referencing the UI slider
 
-   // [SerializeField] private Vector3 enlargedScale = new Vector3(2f, 2f, 1f); //scale of the player during the slam
-   // [SerializeField] private float slamRadius = 2f; //Radius of slam effect
-   // [SerializeField] private LayerMask enemyLayer; //Layer for enemies to detect during slam
-   // [SerializeField] private float slamDamage = 20f; //damage dealt by slam
+    [SerializeField] private Vector3 enlargedScale = new Vector3(2f, 2f, 1f); //scale of the player during the slam
+    [SerializeField] private float slamRadius = 2f; //Radius of slam effect
+    [SerializeField] private LayerMask enemyLayer; //Layer for enemies to detect during slam
+    [SerializeField] private float slamDamage = 20f; //damage dealt by slam
+    [SerializeField] private float slamSpeedThreshold = 0.1f; //speed needed to exit slam
+    [SerializeField] private float sizeChangeSpeed = 8f;
+    [SerializeField] private float slamForce = 5f;
+
+    [SerializeField] private Transform slamIndicator;
 
     private void Awake()
     {
@@ -38,6 +43,9 @@ public class ColaCanController : MonoBehaviour
     {
         HandleMouseInput();
         UpdateFizzinessUI(); //update the UI slider with the current fizziness
+
+        _rigidbody2D.angularVelocity = Mathf.Clamp(_rigidbody2D.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
+        UpdateSlam();
     }
 
     private void HandleMouseInput()
@@ -63,6 +71,10 @@ public class ColaCanController : MonoBehaviour
 
     private void LaunchCan()
     {
+        if (_isLaunching) {
+            return;
+        }
+
         //calculate the direction and force of the launch
         Vector2 launchDirection = (_startMousePosition - _currentMousePosition).normalized;
         float launchForce = Vector2.Distance(_startMousePosition, _currentMousePosition) * launchForceMultiplier;
@@ -72,16 +84,47 @@ public class ColaCanController : MonoBehaviour
 
         //apply spin (angular velocity)
         float randomSpin = Random.Range(-1f, 1f); // Random spin direction
-        float angularVelocity = randomSpin * spinForceMultiplier; // Calculate angular velocity
-
-        //clamps angular velocity to the max value
-        _rigidbody2D.angularVelocity = Mathf.Clamp(angularVelocity, -maxAngularVelocity, maxAngularVelocity); // Apply angular velocity with clamp
+        _rigidbody2D.angularVelocity = randomSpin * spinForceMultiplier; // Calculate angular velocity
 
         //decrease fizziness based on launch force
         DecreaseFizziness(launchForce);
+
+        _isLaunching = true;
+        gameObject.layer = 6;
     }
 
+    private void UpdateSlam() {
+        Transform image = transform.GetChild(0);
+        Vector3 targetScale = _isLaunching ? enlargedScale : Vector3.one;
 
+        image.localScale = Vector3.MoveTowards(image.localScale, targetScale, Vector3.Distance(image.localScale, targetScale)*Time.deltaTime*sizeChangeSpeed);
+
+        if (!_isLaunching) {
+            if (image.localScale.x < 1.1f) {
+                slamIndicator.gameObject.SetActive(false);
+                gameObject.layer = 0;
+            }
+            return;
+        }
+
+        if (_rigidbody2D.velocity.magnitude < slamSpeedThreshold) {
+            SlamDamage();
+            slamIndicator.transform.position = transform.position;
+            slamIndicator.localScale = new Vector3(slamRadius*2, slamRadius*2, 1);slamIndicator.localScale = new Vector3(slamRadius*2, slamRadius*2, 1);
+            slamIndicator.gameObject.SetActive(true);
+            _isLaunching = false;
+        }
+    }
+
+    private void SlamDamage() {
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, slamRadius, Vector2.zero, 0, enemyLayer);
+        foreach (RaycastHit2D hit in hits) {
+            Vector2 force = (hit.transform.position-transform.position).normalized * slamForce;
+
+            hit.transform.gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
+            hit.transform.gameObject.GetComponent<Enemy>().TakeDamage(slamDamage);
+        }
+    }
 
     private void DecreaseFizziness(float launchForce)
     {
