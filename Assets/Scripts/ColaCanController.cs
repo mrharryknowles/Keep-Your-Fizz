@@ -10,7 +10,7 @@ public class ColaCanController : MonoBehaviour
     private bool _isLaunching = false; // tracks if the player is in a 'slam state'
     private float _currentFizziness; //current fizziness value
 
-    private Vector3 _originalScale;
+    //private Vector3 _originalScale;
 
     [SerializeField] private float launchForceMultiplier = 5f; //adjust the strenght of lauch
     [SerializeField] private float spinForceMultiplier = 200f; //controls how fast the can can spin
@@ -18,10 +18,10 @@ public class ColaCanController : MonoBehaviour
     [SerializeField] private float maxFizziness = 100f; //max value of fizziness (health)
     [SerializeField] private Slider fizzinessSlider; //referencing the UI slider
 
-    [SerializeField] private Vector3 enlargedScale = new Vector3(2f, 2f, 1f); //scale of the player during the slam
-    [SerializeField] private float slamRadius = 2f; //Radius of slam effect
-    [SerializeField] private LayerMask enemyLayer; //Layer for enemies to detect during slam
-    [SerializeField] private float slamDamage = 20f; //damage dealt by slam
+   // [SerializeField] private Vector3 enlargedScale = new Vector3(2f, 2f, 1f); //scale of the player during the slam
+   // [SerializeField] private float slamRadius = 2f; //Radius of slam effect
+   // [SerializeField] private LayerMask enemyLayer; //Layer for enemies to detect during slam
+   // [SerializeField] private float slamDamage = 20f; //damage dealt by slam
 
     private void Awake()
     {
@@ -121,11 +121,11 @@ public class ColaCanController : MonoBehaviour
         UpdateFizzinessUI();
     }
 
-    public bool IsSlamming()
-    {
+   // public bool IsSlamming()
+  //  {
         //return true if the player is in the middle of a slam
-        return transform.localScale != _originalScale;
-    }
+   //     return transform.localScale != _originalScale;
+  //  }
 
 }
  
