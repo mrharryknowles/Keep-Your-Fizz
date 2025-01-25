@@ -24,10 +24,10 @@ public class PoloEnemyController : MonoBehaviour
         if (playerTransform != null)
         {
             //calculate direction towards the player
-            Vector2 direction = (playerTransform.position - transform.position).normalized;
+            Vector3 direction = (playerTransform.position - transform.position).normalized;
 
             //move the enemy towards the player
-            transform.Translate(direction * moveSpeed * Time.deltaTime);
+            transform.position += direction * moveSpeed * Time.deltaTime;
         }
     }
 
