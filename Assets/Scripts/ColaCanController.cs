@@ -7,15 +7,21 @@ public class ColaCanController : MonoBehaviour
     private Vector3 _currentMousePosition;
     private Rigidbody2D _rigidbody2D;
     private bool _isDragging = false;
+    private bool _isLaunching = false; // tracks if the player is in a 'slam state'
+    private float _currentFizziness; //current fizziness value
+
+    private Vector3 _originalScale;
 
     [SerializeField] private float launchForceMultiplier = 5f; //adjust the strenght of lauch
     [SerializeField] private float spinForceMultiplier = 200f; //controls how fast the can can spin
     [SerializeField] private float maxAngularVelocity = 100f; //maximum rotational spin
-
     [SerializeField] private float maxFizziness = 100f; //max value of fizziness (health)
-    private float _currentFizziness; //current fizziness value
-
     [SerializeField] private Slider fizzinessSlider; //referencing the UI slider
+
+    [SerializeField] private Vector3 enlargedScale = new Vector3(2f, 2f, 1f); //scale of the player during the slam
+    [SerializeField] private float slamRadius = 2f; //Radius of slam effect
+    [SerializeField] private LayerMask enemyLayer; //Layer for enemies to detect during slam
+    [SerializeField] private float slamDamage = 20f; //damage dealt by slam
 
     private void Awake()
     {
@@ -75,6 +81,8 @@ public class ColaCanController : MonoBehaviour
         DecreaseFizziness(launchForce);
     }
 
+
+
     private void DecreaseFizziness(float launchForce)
     {
         //the more force applied, the more fizz the cola can loses
@@ -88,7 +96,7 @@ public class ColaCanController : MonoBehaviour
         if (_currentFizziness <= 0)
         {
             Debug.Log("The cola can has gone flat! Game Over!");
-            // space to add game logic when the game ends
+            // TODO: Add text/UI for player "Death"
         }
     }
 
