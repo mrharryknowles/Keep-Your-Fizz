@@ -30,6 +30,8 @@ public class ColaCanController : MonoBehaviour
 
     [SerializeField] private float damageForce = 5f;
 
+    [SerializeField] private float minLaunchSpeed = 1f;
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -91,8 +93,10 @@ public class ColaCanController : MonoBehaviour
         //decrease fizziness based on launch force
         DecreaseFizziness(launchForce);
 
-        _isLaunching = true;
-        gameObject.layer = 6;
+        if (launchForce > minLaunchSpeed) {
+            _isLaunching = true;
+            gameObject.layer = 6;
+        }
     }
 
     private void UpdateSlam() {

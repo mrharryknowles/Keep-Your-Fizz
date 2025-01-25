@@ -1225,6 +1225,7 @@ MonoBehaviour:
   slamForce: 5
   slamIndicator: {fileID: 1260127742}
   damageForce: 5
+  minLaunchSpeed: 5
 --- !u!61 &1639283714
 BoxCollider2D:
   m_ObjectHideFlags: 0
