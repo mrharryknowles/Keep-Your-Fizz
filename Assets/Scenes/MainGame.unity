@@ -155,6 +155,7 @@ MonoBehaviour:
   spawnInterval: 5
   spawnAreaWidth: 8
   spawnHeight: 5
+  doubleBubbleSpawnDuration: 60
 --- !u!4 &191885565
 Transform:
   m_ObjectHideFlags: 0
@@ -5381,7 +5382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3697939671894943153, guid: 0dad55a8453781f4c9dddfe8ae8eeb13, type: 3}
-  initialSpawnInterval: 12
+  initialSpawnInterval: 15
   spawnRadius: 3
   playerTransform: {fileID: 1639283712}
   intervalScale: 15
@@ -12543,7 +12544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3697939671894943153, guid: fb870c7bfe8b14944ae2f41bf950e1e8, type: 3}
-  initialSpawnInterval: 10
+  initialSpawnInterval: 12
   spawnRadius: 3
   playerTransform: {fileID: 1639283712}
   intervalScale: 30

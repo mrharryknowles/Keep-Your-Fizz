@@ -8,6 +8,8 @@ public class BubbleSpawner : MonoBehaviour
     [SerializeField] private float spawnAreaWidth = 10f; // width of the spawn area (left to right)
     [SerializeField] private float spawnHeight = 6f; // height from which the health bubbles will fall (top of the screen)
 
+    [SerializeField] private float doubleBubbleSpawnDuration = 60f;
+
     private void Start()
     {
         //start the spawning process
@@ -19,7 +21,7 @@ public class BubbleSpawner : MonoBehaviour
         while (true)
         {
             //wait for the next spawn interval
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(spawnInterval / Mathf.Max(2 - Time.timeSinceLevelLoad/60f, 1));
 
             //generate a random position along the top of the screen (within spawnAreaWidth)
             Vector2 spawnPosition = new Vector2(
