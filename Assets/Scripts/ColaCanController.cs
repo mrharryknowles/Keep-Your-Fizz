@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI; 
 
 public class ColaCanController : MonoBehaviour
@@ -41,6 +42,13 @@ public class ColaCanController : MonoBehaviour
     [SerializeField] private Color lineDisabledColor;
     [SerializeField] private float lineScale;
 
+    private bool _isDead = false;
+
+    public RectTransform deathScreen;
+    public GameObject pauseScreen;
+
+    public Timer timer;
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -54,6 +62,14 @@ public class ColaCanController : MonoBehaviour
 
     private void Update()
     {
+        if (_isDead) {
+            deathScreen.anchoredPosition = new Vector2(0, Mathf.MoveTowards(deathScreen.anchoredPosition.y, 0, deathScreen.anchoredPosition.y*8*Time.unscaledDeltaTime));
+        } else {
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) {
+                TogglePause();
+            }
+        }
+
         HandleMouseInput();
         UpdateFizzinessUI(); //update the UI slider with the current fizziness
 
@@ -63,6 +79,12 @@ public class ColaCanController : MonoBehaviour
 
     private void HandleMouseInput()
     {
+        if (_isDead) {
+            aimIndicator.gameObject.SetActive(false);
+            _isDragging = false;
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             //takes the location of where the mouse clicked before launch/pull
@@ -181,6 +203,10 @@ public class ColaCanController : MonoBehaviour
 
     public void IncreaseFizziness(float amount)
     {
+        if (_isDead) {
+            return;
+        }
+
         //increase fizziness by x amount
         _currentFizziness += amount;
 
@@ -195,8 +221,9 @@ public class ColaCanController : MonoBehaviour
         //if the fizziness reaches 0, trigger game over or other effects
         if (_currentFizziness <= oneShotProtection) {
             _currentFizziness = 0;
-            Debug.Log("The cola can has gone flat! Game Over!");
-            // TODO: Add text/UI for player "Death"
+            _isDead = true;
+            timer.StopTimer();
+            deathScreen.gameObject.SetActive(true);
         } else {
             _currentFizziness -= amount;
 
@@ -212,6 +239,21 @@ public class ColaCanController : MonoBehaviour
 
     public bool IsLaunching() {
         return _isLaunching || gameObject.layer > 0;
+    }
+
+    public void TogglePause() {
+        pauseScreen.SetActive(!pauseScreen.activeSelf);
+        Time.timeScale = pauseScreen.activeSelf ? 0f: 1f;
+    }
+
+    public void Restart() {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainGame");
+    }
+
+    public void Quit() {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }
  
