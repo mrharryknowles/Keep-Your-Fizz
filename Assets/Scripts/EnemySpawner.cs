@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     private float counter = 0f; //timer to track the spawn intervals
 
     private void Start() {
-        counter = initialSpawnInterval - 3;
+        counter = Random.Range(0, initialSpawnInterval-3);
     }
 
     void FixedUpdate()
