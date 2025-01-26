@@ -51,6 +51,8 @@ public class ColaCanController : MonoBehaviour
 
     private void Awake()
     {
+        SetTimeScale(1f);
+
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _currentFizziness = maxFizziness; // start with full (100) fizziness
         if (fizzinessSlider != null)
@@ -64,6 +66,7 @@ public class ColaCanController : MonoBehaviour
     {
         if (_isDead) {
             deathScreen.anchoredPosition = new Vector2(0, Mathf.MoveTowards(deathScreen.anchoredPosition.y, 0, deathScreen.anchoredPosition.y*8*Time.unscaledDeltaTime));
+            SetTimeScale(Time.timeScale - Time.timeScale*Time.unscaledDeltaTime);
         } else {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) {
                 TogglePause();
@@ -247,20 +250,31 @@ public class ColaCanController : MonoBehaviour
 
     public void TogglePause() {
         pauseScreen.SetActive(!pauseScreen.activeSelf);
-        Time.timeScale = pauseScreen.activeSelf ? 0f: 1f;
 
         _isDragging = false;
         aimIndicator.gameObject.SetActive(false);
+
+        SetTimeScale(pauseScreen.activeSelf ? 0f: 1f);
     }
 
     public void Restart() {
-        Time.timeScale = 1f;
+        SetTimeScale(1f);
         SceneManager.LoadScene("MainGame");
     }
 
     public void Quit() {
-        Time.timeScale = 1f;
+        SetTimeScale(1f);
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void SetTimeScale(float timeScale) {
+        if (timeScale < 0.01f) {
+            Time.timeScale = timeScale;
+            Time.fixedDeltaTime = 0.02f;
+        } else {
+            Time.timeScale = timeScale;
+            Time.fixedDeltaTime = 0.02f*timeScale;
+        }
     }
 }
  
