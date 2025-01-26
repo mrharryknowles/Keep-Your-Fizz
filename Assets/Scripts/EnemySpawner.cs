@@ -15,6 +15,10 @@ public class EnemySpawner : MonoBehaviour
 
     private float counter = 0f; //timer to track the spawn intervals
 
+    private void Start() {
+        counter = initialSpawnInterval - 3;
+    }
+
     void FixedUpdate()
     {
         elapsedTime += Time.fixedDeltaTime; //update elapsed time, increment every frame
@@ -39,6 +43,19 @@ public class EnemySpawner : MonoBehaviour
             playerTransform.position.x + Mathf.Cos(angle * Mathf.Deg2Rad) * spawnRadius,
             playerTransform.position.y + Mathf.Sin(angle * Mathf.Deg2Rad) * spawnRadius
         );
+
+        //if the enemy would spawn out of bounds, wrap its position to the other side of the screen
+        if (spawnPosition.x < -5) {
+            spawnPosition.x += 10;
+        } else if (spawnPosition.x > 5) {
+            spawnPosition.x -= 10;
+        }
+
+        if (spawnPosition.y < -5) {
+            spawnPosition.y += 10;
+        } else if (spawnPosition.y > 5) {
+            spawnPosition.y -= 10;
+        }
 
         //instantiate the enemy at the calculated position
         Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
