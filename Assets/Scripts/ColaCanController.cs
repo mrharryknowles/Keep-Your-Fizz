@@ -178,5 +178,9 @@ public class ColaCanController : MonoBehaviour
         source.GetComponent<Rigidbody2D>().AddForce(-force, ForceMode2D.Impulse);
         
     }
+
+    public bool IsLaunching() {
+        return _isLaunching || gameObject.layer > 0;
+    }
 }
  

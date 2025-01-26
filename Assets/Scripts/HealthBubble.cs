@@ -13,7 +13,7 @@ public class HealthBubble : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         //checks if the player/Can collides with the HealthBubble
         if (other.CompareTag("Player"))
@@ -21,11 +21,12 @@ public class HealthBubble : MonoBehaviour
             //get the ColaCanController script attached to the player/Can
             ColaCanController colaCan = other.GetComponent<ColaCanController>();
 
-            if (colaCan != null)
-            {
-                //increases the player's fizziness/health
-                colaCan.IncreaseFizziness(fizzinessBoost);
+            if (colaCan == null || colaCan.IsLaunching()) {
+                return;
             }
+
+            //increases the player's fizziness/health
+            colaCan.IncreaseFizziness(fizzinessBoost);
 
             //destroys the bubble on collision
             Destroy(gameObject);
