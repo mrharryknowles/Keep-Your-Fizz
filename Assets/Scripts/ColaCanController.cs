@@ -51,6 +51,10 @@ public class ColaCanController : MonoBehaviour
 
     [SerializeField] private ParticleSystem launchParticles;
 
+    public ScreenShake.Amount damageScreenShake;
+    public ScreenShake.Amount slamScreenShake;
+    public ScreenShake screenShake;
+
     private void Awake()
     {
         SetTimeScale(1f);
@@ -177,6 +181,7 @@ public class ColaCanController : MonoBehaviour
             SlamDamage();
             slamParticles.transform.position = transform.position;
             slamParticles.Play();
+            screenShake.ShakeScreen(slamScreenShake);
             _isLaunching = false;
         }
     }
@@ -243,11 +248,12 @@ public class ColaCanController : MonoBehaviour
         Vector2 force = (transform.position - source.position).normalized * damageForce;
         _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
         source.GetComponent<Rigidbody2D>().AddForce(-force, ForceMode2D.Impulse);
+        screenShake.ShakeScreen(damageScreenShake);
         
     }
 
     public bool IsLaunching() {
-        return _isLaunching || gameObject.layer > 0;
+        return _isLaunching;
     }
 
     public void TogglePause() {
