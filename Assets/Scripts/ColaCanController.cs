@@ -135,7 +135,7 @@ public class ColaCanController : MonoBehaviour
     private void DecreaseFizziness(float launchForce)
     {
         //the more force applied, the more fizz the cola can loses
-        float fizzLoss = Mathf.Clamp(launchForce * 0.1f, 0, maxFizziness); // Adjust the multiplier for desired fizz loss rate
+        float fizzLoss = Mathf.Clamp(launchForce * 0.5f, 0, maxFizziness); // adjust the multiplier for desired fizz loss rate
         _currentFizziness -= fizzLoss;
 
         //clamp the fizziness to make sure it doesn't go below 0
