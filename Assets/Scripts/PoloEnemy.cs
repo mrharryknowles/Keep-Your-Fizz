@@ -21,7 +21,7 @@ public class PoloEnemyController : Enemy
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //moves towards the player
         MoveTowardsPlayer();
@@ -29,6 +29,10 @@ public class PoloEnemyController : Enemy
 
     private void MoveTowardsPlayer()
     {
+        if (Time.timeScale < 1f) {
+            return;
+        }
+
         if (playerTransform != null && Time.time > disableUntil)
         {
             //calculate direction towards the player

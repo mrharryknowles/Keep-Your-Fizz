@@ -85,6 +85,10 @@ public class ColaCanController : MonoBehaviour
             return;
         }
 
+        if (Time.timeScale < 1f) {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             //takes the location of where the mouse clicked before launch/pull
@@ -115,7 +119,7 @@ public class ColaCanController : MonoBehaviour
             aimIndicator.startColor = color;
         }
 
-        if (Input.GetMouseButtonUp(0) && _isDragging)
+        if (_isDragging && !Input.GetMouseButton(0))
         {
             aimIndicator.gameObject.SetActive(false);
             LaunchCan();
@@ -244,6 +248,9 @@ public class ColaCanController : MonoBehaviour
     public void TogglePause() {
         pauseScreen.SetActive(!pauseScreen.activeSelf);
         Time.timeScale = pauseScreen.activeSelf ? 0f: 1f;
+
+        _isDragging = false;
+        aimIndicator.gameObject.SetActive(false);
     }
 
     public void Restart() {
