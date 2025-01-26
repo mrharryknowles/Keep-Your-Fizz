@@ -32,6 +32,10 @@ public class ColaCanController : MonoBehaviour
 
     [SerializeField] private float minLaunchSpeed = 1f;
 
+    // if an enemies damage would put you below this amount of health, you stay on it
+    // if you are alreay at or below the amount, however, they enemy can kill you
+    [SerializeField] private float oneShotProtection;
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -75,7 +79,7 @@ public class ColaCanController : MonoBehaviour
 
     private void LaunchCan()
     {
-        if (_isLaunching) {
+        if (_isLaunching || _currentFizziness <= 0) {
             return;
         }
 
@@ -140,13 +144,6 @@ public class ColaCanController : MonoBehaviour
 
         //clamp the fizziness to make sure it doesn't go below 0
         _currentFizziness = Mathf.Clamp(_currentFizziness, 0, maxFizziness);
-
-        //if the fizziness reaches 0, trigger game over or other effects
-        if (_currentFizziness <= 0)
-        {
-            Debug.Log("The cola can has gone flat! Game Over!");
-            // TODO: Add text/UI for player "Death"
-        }
     }
 
     //update the UI Slider with the current fizziness 
@@ -171,7 +168,16 @@ public class ColaCanController : MonoBehaviour
     }
 
     public void DamagePlayer(float amount, Transform source) {
+        //if the fizziness reaches 0, trigger game over or other effects
+        if (_currentFizziness <= oneShotProtection) {
+            Debug.Log("The cola can has gone flat! Game Over!");
+            // TODO: Add text/UI for player "Death"
+        }
+
         _currentFizziness -= amount;
+
+        //clamp the fizziness to make sure it doesn't go below 0
+        _currentFizziness = Mathf.Clamp(_currentFizziness, oneShotProtection, maxFizziness);
 
         Vector2 force = (transform.position - source.position).normalized * damageForce;
         _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
