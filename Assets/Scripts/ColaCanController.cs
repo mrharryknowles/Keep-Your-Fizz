@@ -60,6 +60,7 @@ public class ColaCanController : MonoBehaviour
     public RandomAudioSource launchAudio;
     public RandomAudioSource slamAudio;
     public RandomAudioSource enemyHitAudio;
+    public RandomAudioSource slurpAudio;
 
     private void Awake()
     {
@@ -242,6 +243,8 @@ public class ColaCanController : MonoBehaviour
 
         //updates the UI with the new value
         UpdateFizzinessUI();
+
+        slurpAudio.Play();
     }
 
     public void DamagePlayer(float amount, Transform source) {
