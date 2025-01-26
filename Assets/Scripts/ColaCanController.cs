@@ -22,7 +22,7 @@ public class ColaCanController : MonoBehaviour
     [SerializeField] private Vector3 enlargedScale = new Vector3(2f, 2f, 1f); //scale of the player during the slam
     [SerializeField] private float slamRadius = 2f; //Radius of slam effect
     [SerializeField] private LayerMask enemyLayer; //Layer for enemies to detect during slam
-    [SerializeField] private float slamDamage = 20f; //damage dealt by slam
+    [SerializeField] private float slamDamage = 10f; //damage dealt by slam
     [SerializeField] private float slamSpeedThreshold = 0.1f; //speed needed to exit slam
     [SerializeField] private float sizeChangeSpeed = 8f;
     [SerializeField] private float slamForce = 5f;
