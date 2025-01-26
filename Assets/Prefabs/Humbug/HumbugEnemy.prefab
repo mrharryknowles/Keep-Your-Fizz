@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7353462252495834778}
   - component: {fileID: 493930396691207576}
   m_Layer: 3
-  m_Name: PoloEnemy
+  m_Name: HumbugEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: c13d8fd14d227534e96057658f29a738, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 04e2549d45a5fdd47a8b6db0a7a523b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -148,7 +148,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.36
+  m_Radius: 0.2
 --- !u!114 &493930396691207576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,14 +161,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2efbca77d130d04488084f1f178a729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 30
-  fullHealthSprite: {fileID: 21300000, guid: c13d8fd14d227534e96057658f29a738, type: 3}
-  midHealthSprite: {fileID: 21300000, guid: e9f8a6dda78cec241a48b0951f414142, type: 3}
-  lowHealthSprite: {fileID: 21300000, guid: 5c18aaa7f308fd644b01edcd7a76c8f5, type: 3}
+  health: 5
+  fullHealthSprite: {fileID: 21300000, guid: 04e2549d45a5fdd47a8b6db0a7a523b9, type: 3}
+  midHealthSprite: {fileID: 21300000, guid: 04e2549d45a5fdd47a8b6db0a7a523b9, type: 3}
+  lowHealthSprite: {fileID: 21300000, guid: 04e2549d45a5fdd47a8b6db0a7a523b9, type: 3}
   spriteRenderer: {fileID: 9043062697779181935}
-  rotationSpeed: 200
-  deathParticles: {fileID: 2805841210850337089, guid: 466e206a863b71940a889fa37ea2f865, type: 3}
+  rotationSpeed: 400
+  deathParticles: {fileID: 2805841210850337089, guid: d84cb504bec6e6a4c9fc413536f775cb, type: 3}
   acceleration: 3
-  maxVelocity: 1
-  damageAmount: 10
+  maxVelocity: 5
+  damageAmount: 20
   disableFor: 1
