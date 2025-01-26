@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float health = 50f;
+    public float health = 30f;
 
     //method to take damage from the player/can
     public virtual void TakeDamage(float damage)
