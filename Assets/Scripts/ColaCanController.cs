@@ -49,6 +49,8 @@ public class ColaCanController : MonoBehaviour
 
     public Timer timer;
 
+    [SerializeField] private ParticleSystem launchParticles;
+
     private void Awake()
     {
         SetTimeScale(1f);
@@ -153,6 +155,7 @@ public class ColaCanController : MonoBehaviour
         if (launchForce > minLaunchSpeed) {
             _isLaunching = true;
             gameObject.layer = 6;
+            launchParticles.Play();
         }
     }
 
@@ -165,6 +168,7 @@ public class ColaCanController : MonoBehaviour
         if (!_isLaunching) {
             if (image.localScale.x < 1.1f) {
                 gameObject.layer = 0;
+                launchParticles.Stop();
             }
             return;
         }
