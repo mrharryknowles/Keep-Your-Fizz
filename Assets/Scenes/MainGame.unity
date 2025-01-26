@@ -2054,7 +2054,8 @@ MonoBehaviour:
   initialSpawnInterval: 10
   spawnRadius: 3
   playerTransform: {fileID: 1639283712}
-  intervalScale: 15
+  intervalScale: 30
+  intervalScaleExponent: 1
 --- !u!4 &2043400705
 Transform:
   m_ObjectHideFlags: 0
