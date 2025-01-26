@@ -55,6 +55,11 @@ public class ColaCanController : MonoBehaviour
     public ScreenShake.Amount slamScreenShake;
     public ScreenShake screenShake;
 
+    public RandomAudioSource damageAudio;
+    public RandomAudioSource gameOverAudio;
+    public RandomAudioSource launchAudio;
+    public RandomAudioSource slamAudio;
+
     private void Awake()
     {
         SetTimeScale(1f);
@@ -161,6 +166,8 @@ public class ColaCanController : MonoBehaviour
             gameObject.layer = 6;
             launchParticles.Play();
         }
+
+        launchAudio.Play();
     }
 
     private void UpdateSlam() {
@@ -182,6 +189,7 @@ public class ColaCanController : MonoBehaviour
             slamParticles.transform.position = transform.position;
             slamParticles.Play();
             screenShake.ShakeScreen(slamScreenShake);
+            slamAudio.Play();
             _isLaunching = false;
         }
     }
@@ -238,7 +246,9 @@ public class ColaCanController : MonoBehaviour
             _isDead = true;
             timer.StopTimer();
             deathScreen.gameObject.SetActive(true);
+            gameOverAudio.Play();
         } else {
+            damageAudio.Play();
             _currentFizziness -= amount;
 
             //clamp the fizziness to make sure it doesn't go below 0
@@ -277,7 +287,7 @@ public class ColaCanController : MonoBehaviour
 
     public void SetTimeScale(float timeScale) {
         if (timeScale < 0.01f) {
-            Time.timeScale = timeScale;
+            Time.timeScale = 0;
             Time.fixedDeltaTime = 0.02f;
         } else {
             Time.timeScale = timeScale;
