@@ -21,7 +21,7 @@ public class BubbleSpawner : MonoBehaviour
         while (true)
         {
             //wait for the next spawn interval
-            yield return new WaitForSeconds(spawnInterval / Mathf.Max(2 - Time.timeSinceLevelLoad/60f, 1));
+            yield return new WaitForSeconds(spawnInterval / Mathf.Max(2 - Time.timeSinceLevelLoad/doubleBubbleSpawnDuration, 1));
 
             //generate a random position along the top of the screen (within spawnAreaWidth)
             Vector2 spawnPosition = new Vector2(
