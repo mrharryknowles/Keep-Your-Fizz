@@ -36,6 +36,11 @@ public class ColaCanController : MonoBehaviour
     // if you are alreay at or below the amount, however, they enemy can kill you
     [SerializeField] private float oneShotProtection;
 
+    [SerializeField] private LineRenderer aimIndicator;
+    [SerializeField] private Color lineLaunchColor;
+    [SerializeField] private Color lineDisabledColor;
+    [SerializeField] private float lineScale;
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -64,14 +69,33 @@ public class ColaCanController : MonoBehaviour
             _startMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _startMousePosition.z = 0; //sets z to 0 since we're in 2D
             _isDragging = true;
+            aimIndicator.gameObject.SetActive(true);
+        }
+
+        if (_isDragging) {
+            _currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _currentMousePosition.z = 0;
+
+            Vector3 offset = Quaternion.Inverse(transform.rotation)*(_currentMousePosition-_startMousePosition)*lineScale;
+            Vector3 padding = offset.normalized*0.25f;
+            aimIndicator.SetPosition(0, padding+offset);
+            aimIndicator.SetPosition(1, padding);
+
+        
+            Color color;
+            if (_currentFizziness <= 0 || Vector2.Distance(_startMousePosition, _currentMousePosition) * launchForceMultiplier <= minLaunchSpeed) {
+                color = lineDisabledColor;
+            } else {
+                color = lineLaunchColor;
+            }
+            aimIndicator.endColor = color;
+            color.a = 0;
+            aimIndicator.startColor = color;
         }
 
         if (Input.GetMouseButtonUp(0) && _isDragging)
         {
-            //records the mouse position when let go
-            _currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            _currentMousePosition.z = 0;
-
+            aimIndicator.gameObject.SetActive(false);
             LaunchCan();
             _isDragging = false;
         }
@@ -170,14 +194,15 @@ public class ColaCanController : MonoBehaviour
     public void DamagePlayer(float amount, Transform source) {
         //if the fizziness reaches 0, trigger game over or other effects
         if (_currentFizziness <= oneShotProtection) {
+            _currentFizziness = 0;
             Debug.Log("The cola can has gone flat! Game Over!");
             // TODO: Add text/UI for player "Death"
+        } else {
+            _currentFizziness -= amount;
+
+            //clamp the fizziness to make sure it doesn't go below 0
+            _currentFizziness = Mathf.Clamp(_currentFizziness, oneShotProtection, maxFizziness);
         }
-
-        _currentFizziness -= amount;
-
-        //clamp the fizziness to make sure it doesn't go below 0
-        _currentFizziness = Mathf.Clamp(_currentFizziness, oneShotProtection, maxFizziness);
 
         Vector2 force = (transform.position - source.position).normalized * damageForce;
         _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
