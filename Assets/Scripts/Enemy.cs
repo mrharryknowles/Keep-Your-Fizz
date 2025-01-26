@@ -9,11 +9,38 @@ public class Enemy : MonoBehaviour
     public Sprite lowHealthSprite;
 
     public SpriteRenderer spriteRenderer;
+    public float rotationSpeed = 10f;
+
+    private float currentRotationSpeed;
+
+    private void RandomiseRotationSpeed()
+    {
+        currentRotationSpeed = Random.Range(-rotationSpeed, rotationSpeed);
+
+    }
+
+    private void Awake()
+    {
+        RandomiseRotationSpeed();
+    }
+
+    private void Update()
+    {
+        SpinEnemy();
+    }
+
+
+    private void SpinEnemy()
+    {
+        transform.Rotate(Vector3.forward * currentRotationSpeed * Time.deltaTime);
+    }
 
     //method to take damage from the player/can
     public virtual void TakeDamage(float damage)
     {
         health -= damage;
+
+        RandomiseRotationSpeed();
 
         UpdateSprite();
 
