@@ -27,7 +27,7 @@ public class ColaCanController : MonoBehaviour
     [SerializeField] private float sizeChangeSpeed = 8f;
     [SerializeField] private float slamForce = 5f;
 
-    [SerializeField] private Transform slamIndicator;
+    [SerializeField] private ParticleSystem slamParticles;
 
     [SerializeField] private float damageForce = 5f;
 
@@ -164,7 +164,6 @@ public class ColaCanController : MonoBehaviour
 
         if (!_isLaunching) {
             if (image.localScale.x < 1.1f) {
-                slamIndicator.gameObject.SetActive(false);
                 gameObject.layer = 0;
             }
             return;
@@ -172,9 +171,8 @@ public class ColaCanController : MonoBehaviour
 
         if (_rigidbody2D.velocity.magnitude < slamSpeedThreshold) {
             SlamDamage();
-            slamIndicator.transform.position = transform.position;
-            slamIndicator.localScale = new Vector3(slamRadius*2, slamRadius*2, 1);slamIndicator.localScale = new Vector3(slamRadius*2, slamRadius*2, 1);
-            slamIndicator.gameObject.SetActive(true);
+            slamParticles.transform.position = transform.position;
+            slamParticles.Play();
             _isLaunching = false;
         }
     }
