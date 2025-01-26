@@ -59,6 +59,7 @@ public class ColaCanController : MonoBehaviour
     public RandomAudioSource gameOverAudio;
     public RandomAudioSource launchAudio;
     public RandomAudioSource slamAudio;
+    public RandomAudioSource enemyHitAudio;
 
     private void Awake()
     {
@@ -201,6 +202,10 @@ public class ColaCanController : MonoBehaviour
 
             hit.transform.gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
             hit.transform.gameObject.GetComponent<Enemy>().TakeDamage(slamDamage);
+        }
+
+        if (hits.Length > 0) {
+            enemyHitAudio.Play();
         }
     }
 
