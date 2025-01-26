@@ -1625,7 +1625,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
-  slamDamage: 20
+  slamDamage: 10
   slamSpeedThreshold: 1.5
   sizeChangeSpeed: 8
   slamForce: 5
@@ -2051,9 +2051,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3697939671894943153, guid: fb870c7bfe8b14944ae2f41bf950e1e8, type: 3}
-  spawnInterval: 8
+  initialSpawnInterval: 3
   spawnRadius: 3
   playerTransform: {fileID: 1639283712}
+  intervalScale: 10
 --- !u!4 &2043400705
 Transform:
   m_ObjectHideFlags: 0

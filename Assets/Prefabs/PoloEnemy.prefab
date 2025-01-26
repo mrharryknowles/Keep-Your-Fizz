@@ -161,7 +161,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2efbca77d130d04488084f1f178a729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  health: 30
+  fullHealthSprite: {fileID: 21300000, guid: c13d8fd14d227534e96057658f29a738, type: 3}
+  midHealthSprite: {fileID: 21300000, guid: e9f8a6dda78cec241a48b0951f414142, type: 3}
+  lowHealthSprite: {fileID: 21300000, guid: 5c18aaa7f308fd644b01edcd7a76c8f5, type: 3}
+  spriteRenderer: {fileID: 9043062697779181935}
   acceleration: 3
   maxVelocity: 1
   damageAmount: 10
