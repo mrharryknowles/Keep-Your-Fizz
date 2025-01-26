@@ -247,7 +247,7 @@ public class ColaCanController : MonoBehaviour
     }
 
     public bool IsLaunching() {
-        return _isLaunching || gameObject.layer > 0;
+        return _isLaunching;
     }
 
     public void TogglePause() {
