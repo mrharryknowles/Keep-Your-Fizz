@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
 
     private float currentRotationSpeed;
 
+    public GameObject deathParticles;
+
     private void RandomiseRotationSpeed()
     {
         currentRotationSpeed = Random.Range(-rotationSpeed, rotationSpeed);
@@ -47,6 +49,7 @@ public class Enemy : MonoBehaviour
         //if their health is less than or equal to 0, destroy the enemy
         if (health <= 0)
         {
+            Instantiate(deathParticles, transform.position, transform.rotation);
             Destroy(gameObject); // destroy the enemy
         }
     }

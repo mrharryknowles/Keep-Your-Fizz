@@ -11373,9 +11373,6 @@ MonoBehaviour:
   slamScreenShake:
     amplitude: 0.05
     duration: 0.25
-  launchScreenShake:
-    amplitude: 0.01
-    duration: 0.25
   screenShake: {fileID: 519420033}
 --- !u!61 &1639283714
 BoxCollider2D:
